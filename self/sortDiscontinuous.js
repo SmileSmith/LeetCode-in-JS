@@ -20,7 +20,13 @@ function disContinuous(array) {
 
   return result;
 }
-
+/**
+ * 左右两个分区排序
+ * @param {Array} left 
+ * @param {Array} right
+ * 
+ * @returns {Array} 左右区间排序后的数组
+ */
 function sort(left, right) {
   const result = [];
   while (left.length > 0 || right.length > 0) {
@@ -33,6 +39,18 @@ function sort(left, right) {
   return result;
 }
 
+/**
+ * 归并排序
+ * 
+ * 1  需要中间数组，返回新数组
+ * 2  二分之一分区
+ * 3  先分区，再排序，分和排是先后的
+ * 4  两两比较，稳定排序
+ * 
+ * @param {Array} numberArray 
+ * 
+ * @returns {Array} 排序后的数组
+ */
 function mergeSort(numberArray) {
   if (numberArray.length <= 1) {
     return numberArray;
@@ -63,20 +81,41 @@ console.log('result: \n' + result);
 
 
 
-
+/**
+ * 快速排序
+ * 
+ * 1  直接在待排序序列中排序
+ * 2  分区是随机的
+ * 3  分区过程中同时排序
+ * 4  交换排序，跳跃性，不稳定排序
+ * 
+ * @param {Array} array 
+ * @param {Number} left 
+ * @param {Number} right 
+ * 
+ * @returns {Array} 排序后的数组
+ */
 function quickSort(array, left = 0, right = array.length - 1) {
   let partitionIndex;
 
   if (left < right) {
     partitionIndex = partition(array, left, right);
+    // 左区和右区都分别递归进行左右分区
     quickSort(array, left, partitionIndex - 1);
     quickSort(array, partitionIndex + 1, right);
   }
   return array;
 }
-
-function partition(array, left, right) { //分区操作
-  const pivot = left; //设定基准值（pivot）
+/**
+ * 以中间值为基准，左右分区，返回中间索引
+ * @param {Array} array 
+ * @param {Number} left 
+ * @param {Number} right 
+ * 
+ * @returns {Number} 中间Index
+ */
+function partition(array, left, right) {
+  const pivot = left;
   let index = pivot + 1;
   for (let i = index; i <= right; i++) {
     if (array[i] < array[pivot]) {
@@ -87,7 +126,12 @@ function partition(array, left, right) { //分区操作
   swap(array, pivot, index - 1);
   return index - 1;
 }
-
+/**
+ * 交换数组中i和j元素的位置
+ * @param {Array} array 
+ * @param {Number} i 
+ * @param {Number} j 
+ */
 function swap(array, i, j) {
   var temp = array[i];
   array[i] = array[j];
