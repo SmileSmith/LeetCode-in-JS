@@ -1,17 +1,24 @@
-
 function disContinuous(array) {
   let result = [];
   let continus = []
   while (array.length > 0) {
-    let temp = array.shift();
-    let lastIndex =  continus.length - 1;
-    if (lastIndex > 0 && (temp - continus[lastIndex] !== 1)) {
-      result.push(continus[0], continus[lastIndex]);
+    const nowNumber = array.shift();
+    if (continus.length >= 2 && (nowNumber - continus[continus.length - 1] !== 1)) {
+      result.push(continus[0], continus[continus.length - 1], nowNumber);
       continus = [];
+    } else {
+      continus.push(nowNumber);
     }
-    continus.push(temp);
   }
-  return result.concat(continus);
+
+  if (continus.length >= 2) {
+    result.push(continus[0], continus[continus.length - 1]);
+  }
+  if (continus.length === 1) {
+    result.push(continus[0]);
+  }
+
+  return result;
 }
 
 function sort(left, right) {
@@ -46,9 +53,57 @@ function runSort(string) {
   return disContinuous(numberArray);
 }
 
-const inputString = '1,4,10,9,3,5,6,110,2,90,8,7';
+const inputString = '1,4,10,9,3,5,6,110,2,90,8,7,109,108,107';
 // eslint-disable-next-line
 console.log('input string: \n' + inputString + '\n');
 const result = runSort(inputString);
 // eslint-disable-next-line
 console.log('result: \n' + result);
+
+
+
+
+
+function quickSort(array, left = 0, right = array.length - 1) {
+  let partitionIndex;
+
+  if (left < right) {
+    partitionIndex = partition(array, left, right);
+    quickSort(array, left, partitionIndex - 1);
+    quickSort(array, partitionIndex + 1, right);
+  }
+  return array;
+}
+
+function partition(array, left, right) { //分区操作
+  const pivot = left; //设定基准值（pivot）
+  let index = pivot + 1;
+  for (let i = index; i <= right; i++) {
+    if (array[i] < array[pivot]) {
+      swap(array, i, index);
+      index++;
+    }
+  }
+  swap(array, pivot, index - 1);
+  return index - 1;
+}
+
+function swap(array, i, j) {
+  var temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+}
+
+function runQuickSort(string) {
+  let numberArray = string.split(',');
+  if (numberArray.length <= 1) {
+    return numberArray;
+  }
+  numberArray = numberArray.map(numberString => parseInt(numberString, 10));
+  numberArray = quickSort(numberArray);
+  return disContinuous(numberArray);
+}
+
+const quickSortResult = runQuickSort(inputString);
+// eslint-disable-next-line
+console.log('quick result: \n' + quickSortResult);
