@@ -30,7 +30,7 @@ function disContinuous(array) {
 function sort(left, right) {
   const result = [];
   while (left.length > 0 || right.length > 0) {
-    if (!right[0] || left[0] < right[0]) {
+    if (right[0] === undefined || left[0] < right[0]) {
       result.push(left.shift());
     } else {
       result.push(right.shift());
@@ -71,7 +71,7 @@ function runSort(string) {
   return disContinuous(numberArray);
 }
 
-const inputString = '1,4,10,9,3,5,6,110,2,90,8,7,109,108,107';
+const inputString = '101,333,111,99,98,97,100,444,96,95,94,1,2,0,3,4,6,100,101,3,4';
 // eslint-disable-next-line
 console.log('input string: \n' + inputString + '\n');
 const result = runSort(inputString);
